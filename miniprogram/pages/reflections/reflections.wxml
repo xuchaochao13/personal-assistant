@@ -2,7 +2,7 @@
   <view wx:if="{{reflections.length === 0}}" class="empty-state">暂无反思记录</view>
   <view wx:for="{{reflections}}" wx:key="id" class="card" bindtap="goEdit" data-id="{{item.id}}">
     <view>{{item.title}}</view>
-    <view class="text-muted">心情: {{'😊'.repeat(item.mood)}}</view>
+    <view class="text-muted">心情: {{item.moodEmoji}}</view>
     <view class="text-muted">{{item.content}}</view>
   </view>
   <view class="fab" bindtap="goNew">+</view>
