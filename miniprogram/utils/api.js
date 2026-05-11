@@ -1,5 +1,7 @@
 const BASE_URL = 'https://git-256591-6-1431639024.sh.run.tcloudbase.com/api';
 
+let loginPromise = null;
+
 function request(url, options = {}) {
   const app = getApp();
   const token = app.globalData.token;
@@ -16,16 +18,20 @@ function request(url, options = {}) {
       success(res) {
         if (res.statusCode >= 200 && res.statusCode < 300) {
           resolve(res.data);
-        } else if (res.statusCode === 401) {
+        } else if (res.statusCode === 401 && !options._retry) {
           app.globalData.token = '';
-          wx.showToast({ title: '请重新登录', icon: 'none' });
-          reject(res.data);
+          // auto retry after login
+          loginPromise = loginPromise || require('./auth').login();
+          loginPromise.then(() => {
+            request(url, { ...options, _retry: true }).then(resolve).catch(reject);
+          }).catch(() => {
+            reject(res.data);
+          });
         } else {
           reject(res.data);
         }
       },
       fail(err) {
-        wx.showToast({ title: '网络错误', icon: 'none' });
         reject(err);
       },
     });

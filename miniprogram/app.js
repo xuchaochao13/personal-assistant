@@ -6,7 +6,13 @@ App({
     userInfo: null,
   },
 
-  onLaunch() {
-    checkLogin.call(this);
+  async onLaunch() {
+    const token = checkLogin.call(this);
+    if (!token) {
+      try {
+        const { login } = require('./utils/auth');
+        await login();
+      } catch {}
+    }
   },
 });
