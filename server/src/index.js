@@ -9,6 +9,12 @@ app.use(express.json());
 
 initDb().then(() => {
   app.use('/api/auth', require('./routes/auth'));
+  app.use('/api/todos', require('./routes/todos'));
+  app.use('/api/schedules', require('./routes/schedules'));
+  app.use('/api/memos', require('./routes/memos'));
+  app.use('/api/weight', require('./routes/weight'));
+  app.use('/api/fitness', require('./routes/fitness'));
+  app.use('/api/reflections', require('./routes/reflections'));
 
   app.get('/api/health', (req, res) => {
     res.json({ status: 'ok' });
