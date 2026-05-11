@@ -1,0 +1,8 @@
+<view class="container">
+  <view wx:if="{{memos.length === 0}}" class="empty-state">暂无备忘录</view>
+  <view wx:for="{{memos}}" wx:key="id" class="card" bindtap="goEdit" data-id="{{item.id}}">
+    <view>{{item.title}}</view>
+    <view class="text-muted">{{item.content}}</view>
+  </view>
+  <view class="fab" bindtap="goNew">+</view>
+</view>

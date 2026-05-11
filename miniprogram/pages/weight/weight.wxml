@@ -1,0 +1,25 @@
+<view class="container">
+  <view wx:if="{{stats.total}}" class="card">
+    <view class="text-muted">体重范围: {{stats.min_weight}}kg - {{stats.max_weight}}kg | 平均: {{stats.avg_weight}}kg</view>
+  </view>
+
+  <view wx:if="{{records.length === 0}}" class="empty-state">暂无体重记录</view>
+
+  <view wx:for="{{records}}" wx:key="id" class="card">
+    <view>{{item.weight}} kg</view>
+    <view class="text-muted">{{item.recorded_at}}</view>
+    <view class="text-muted" wx:if="{{item.note}}">{{item.note}}</view>
+    <view class="todo-del" data-id="{{item.id}}" bindtap="del">×</view>
+  </view>
+
+  <view wx:if="{{showForm}}" class="card">
+    <input value="{{weight}}" bindinput="onInput" data-key="weight" placeholder="体重(kg)" type="digit" />
+    <picker mode="date" value="{{recorded_at}}" bindchange="setDate">
+      <view>{{recorded_at || '选择日期'}}</view>
+    </picker>
+    <input value="{{note}}" bindinput="onInput" data-key="note" placeholder="备注" />
+    <button class="btn-primary" bindtap="save">保存</button>
+  </view>
+
+  <view class="fab" bindtap="showAdd">+</view>
+</view>

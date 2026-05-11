@@ -1,0 +1,26 @@
+<view class="container">
+  <view class="filter-bar">
+    <view class="filter-item {{filter === 'active' ? 'active' : ''}}" data-filter="active" bindtap="setFilter">
+      进行中 ({{activeCount}})
+    </view>
+    <view class="filter-item {{filter === 'done' ? 'active' : ''}}" data-filter="done" bindtap="setFilter">
+      已完成 ({{doneCount}})
+    </view>
+  </view>
+
+  <view wx:if="{{todos.length === 0}}" class="empty-state">暂无待办事项</view>
+
+  <view wx:for="{{todos}}" wx:key="id" class="card todo-item">
+    <view class="todo-check {{item.completed ? 'checked' : ''}}"
+      data-id="{{item.id}}" data-completed="{{item.completed}}" bindtap="toggleTodo">
+      {{item.completed ? '✓' : ''}}
+    </view>
+    <view class="todo-body" bindtap="goEdit" data-id="{{item.id}}">
+      <view class="{{item.completed ? 'done' : ''}}">{{item.title}}</view>
+      <view class="text-muted" wx:if="{{item.due_date}}">{{item.due_date}}</view>
+    </view>
+    <view class="todo-del" data-id="{{item.id}}" bindtap="deleteTodo">×</view>
+  </view>
+
+  <view class="fab" bindtap="goNew">+</view>
+</view>

@@ -1,0 +1,6 @@
+<view class="container">
+  <view class="card" bindtap="goMemo">📖 备忘录</view>
+  <view class="card" bindtap="goWeight">⚖️ 体重管理</view>
+  <view class="card" bindtap="goFitness">🏃 健身记录</view>
+  <view class="card" bindtap="goReflection">💭 反思记录</view>
+</view>

@@ -1,0 +1,17 @@
+<view class="container">
+  <view class="date-nav">
+    <view bindtap="prevDay">←</view>
+    <view class="date-text">{{currentDate}}</view>
+    <view bindtap="nextDay">→</view>
+  </view>
+
+  <view wx:if="{{schedules.length === 0}}" class="empty-state">今日无日程</view>
+
+  <view wx:for="{{schedules}}" wx:key="id" class="card" bindtap="goEdit" data-id="{{item.id}}">
+    <view>{{item.title}}</view>
+    <view class="text-muted">{{item.start_time}} - {{item.end_time}}</view>
+    <view wx:if="{{item.description}}" class="text-muted">{{item.description}}</view>
+  </view>
+
+  <view class="fab" bindtap="goNew">+</view>
+</view>

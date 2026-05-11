@@ -1,0 +1,2 @@
+.date-nav { display: flex; align-items: center; justify-content: center; gap: 20px; background: #fff; padding: 12px; border-radius: 8px; margin-bottom: 16px; }
+.date-text { font-size: 16px; font-weight: 600; }

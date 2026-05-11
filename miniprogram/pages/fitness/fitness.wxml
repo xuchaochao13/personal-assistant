@@ -1,0 +1,22 @@
+<view class="container">
+  <view wx:if="{{stats.total_minutes}}" class="card">
+    <view class="text-muted">总运动: {{stats.total_minutes}}分钟 | {{stats.sessions}}次</view>
+  </view>
+
+  <view wx:if="{{records.length === 0}}" class="empty-state">暂无健身记录</view>
+
+  <view wx:for="{{records}}" wx:key="id" class="card">
+    <view>{{item.type}} - {{item.duration}}分钟</view>
+    <view class="text-muted">{{item.note}}</view>
+    <view class="todo-del" data-id="{{item.id}}" bindtap="del">×</view>
+  </view>
+
+  <view wx:if="{{showForm}}" class="card">
+    <input value="{{type}}" bindinput="onInput" data-key="type" placeholder="运动类型" />
+    <input value="{{duration}}" bindinput="onInput" data-key="duration" placeholder="时长(分钟)" type="number" />
+    <input value="{{note}}" bindinput="onInput" data-key="note" placeholder="备注" />
+    <button class="btn-primary" bindtap="save">保存</button>
+  </view>
+
+  <view class="fab" bindtap="showAdd">+</view>
+</view>
