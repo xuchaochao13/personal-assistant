@@ -7,12 +7,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-initDb();
+initDb().then(() => {
+  app.get('/api/health', (req, res) => {
+    res.json({ status: 'ok' });
+  });
 
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok' });
-});
-
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+  app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+  });
 });
