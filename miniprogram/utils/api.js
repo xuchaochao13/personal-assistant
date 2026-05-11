@@ -1,4 +1,4 @@
-const BASE_URL = 'https://your-domain.com/api';
+const BASE_URL = 'https://git-256591-6-1431639024.sh.run.tcloudbase.com/api';
 
 function request(url, options = {}) {
   const app = getApp();
