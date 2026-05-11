@@ -2,7 +2,7 @@
   "miniprogramRoot": "./",
   "projectname": "personal-assistant",
   "description": "个人AI私人助理",
-  "appid": "your-appid-here",
+  "appid": "wx6e127323f9eadc3f",
   "setting": { "urlCheck": true, "es6": true, "postcss": true },
   "compileType": "miniprogram"
 }
