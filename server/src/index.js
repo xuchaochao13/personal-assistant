@@ -15,6 +15,7 @@ initDb().then(() => {
   app.use('/api/weight', require('./routes/weight'));
   app.use('/api/fitness', require('./routes/fitness'));
   app.use('/api/reflections', require('./routes/reflections'));
+  app.use('/api/chat', require('./routes/chat'));
 
   app.get('/api/health', (req, res) => {
     res.json({ status: 'ok' });
