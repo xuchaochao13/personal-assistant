@@ -42,11 +42,10 @@ function query(sql, params = []) {
 
 function run(sql, params = []) {
   db.run(sql, params);
+  const res = db.exec('SELECT last_insert_rowid() as id');
+  const lastId = res[0]?.values?.[0]?.[0] || 0;
   saveDb();
-  return {
-    changes: db.getRowsModified(),
-    lastInsertRowid: query('SELECT last_insert_rowid() as id')[0]?.id || 0,
-  };
+  return { changes: db.getRowsModified(), lastInsertRowid: lastId };
 }
 
 async function initDb() {
