@@ -1,12 +1,21 @@
 const https = require('https');
 const { deepseekApiKey, deepseekBaseUrl } = require('../config');
 
-function postStream(url, body) {
+function postStream(apiUrl, body) {
   return new Promise((resolve, reject) => {
-    const u = new URL(url);
+    let hostname, path;
+    try {
+      const u = new URL(apiUrl);
+      hostname = u.hostname;
+      path = u.pathname + u.search;
+    } catch (e) {
+      reject(new Error(`Invalid URL: ${apiUrl}`));
+      return;
+    }
+
     const req = https.request({
-      hostname: u.hostname,
-      path: u.pathname + u.search,
+      hostname,
+      path,
       method: 'POST',
       rejectUnauthorized: false,
       headers: {
@@ -18,7 +27,7 @@ function postStream(url, body) {
       if (res.statusCode < 200 || res.statusCode >= 300) {
         let errData = '';
         res.on('data', (chunk) => { errData += chunk; });
-        res.on('end', () => reject(new Error(`DeepSeek API error: ${res.statusCode} ${errData}`)));
+        res.on('end', () => reject(new Error(`DeepSeek ${res.statusCode}: ${errData}`)));
         return;
       }
       resolve(res);
@@ -37,7 +46,8 @@ async function* streamChat(messages) {
     temperature: 0.7,
   });
 
-  const stream = await postStream(`${deepseekBaseUrl}/v1/chat/completions`, body);
+  const apiUrl = `${deepseekBaseUrl}/v1/chat/completions`;
+  const stream = await postStream(apiUrl, body);
   const decoder = new TextDecoder();
   let buffer = '';
 
