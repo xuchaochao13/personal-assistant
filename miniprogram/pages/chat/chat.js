@@ -22,7 +22,7 @@ Page({
   },
 
   newSession() {
-    this.setData({ currentSessionId: '', messages: [] });
+    this.setData({ currentSessionId: '', messages: [{ role: 'assistant', content: '你好，我是你的私人助理。有什么可以帮你的？' }] });
   },
 
   sendMessage() {
