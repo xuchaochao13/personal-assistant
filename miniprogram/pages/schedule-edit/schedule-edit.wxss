@@ -2,6 +2,19 @@
   margin-bottom: 16px;
 }
 
+.datetime-row {
+  display: flex;
+  gap: 10px;
+}
+
+.datetime-row picker {
+  flex: 1;
+}
+
+.datetime-row .form-input {
+  text-align: center;
+}
+
 .save-bar {
   margin-top: 24px;
 }

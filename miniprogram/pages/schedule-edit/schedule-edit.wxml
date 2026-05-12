@@ -11,12 +11,26 @@
 
   <view class="form-card form-section">
     <view class="form-label">开始时间</view>
-    <input class="form-input" value="{{start_time}}" bindinput="onInput" data-key="start_time" placeholder="YYYY-MM-DD HH:MM" />
+    <view class="datetime-row">
+      <picker mode="date" value="{{start_date}}" bindchange="onStartDateChange">
+        <view class="form-input">{{start_date || '选择日期'}}</view>
+      </picker>
+      <picker mode="time" value="{{start_time}}" bindchange="onStartTimeChange">
+        <view class="form-input">{{start_time || '选择时间'}}</view>
+      </picker>
+    </view>
   </view>
 
   <view class="form-card form-section">
     <view class="form-label">结束时间</view>
-    <input class="form-input" value="{{end_time}}" bindinput="onInput" data-key="end_time" placeholder="YYYY-MM-DD HH:MM" />
+    <view class="datetime-row">
+      <picker mode="date" value="{{end_date}}" bindchange="onEndDateChange">
+        <view class="form-input">{{end_date || '选择日期'}}</view>
+      </picker>
+      <picker mode="time" value="{{end_time}}" bindchange="onEndTimeChange">
+        <view class="form-input">{{end_time || '选择时间'}}</view>
+      </picker>
+    </view>
   </view>
 
   <view class="save-bar">

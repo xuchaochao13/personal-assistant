@@ -25,6 +25,11 @@ Page({
     this.setData({ currentSessionId: '', messages: [{ role: 'assistant', content: '你好，我是你的私人助理。有什么可以帮你的？' }] });
   },
 
+  backToSessions() {
+    this.setData({ currentSessionId: '', messages: [] });
+    this.loadSessions();
+  },
+
   sendMessage() {
     const { input, currentSessionId, messages } = this.data;
     if (!input.trim() || this.data.streaming) return;
