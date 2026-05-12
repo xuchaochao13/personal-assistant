@@ -1,9 +1,22 @@
 const express = require('express');
 const router = express.Router();
+const https = require('https');
 const jwt = require('jsonwebtoken');
 const { jwtSecret, wechatAppId, wechatSecret } = require('../config');
 const { getDb, query, run } = require('../db');
 const { authRequired } = require('../middleware/auth');
+
+function wechatGet(url) {
+  return new Promise((resolve, reject) => {
+    https.get(url, (res) => {
+      let data = '';
+      res.on('data', (chunk) => { data += chunk; });
+      res.on('end', () => {
+        try { resolve(JSON.parse(data)); } catch (e) { reject(e); }
+      });
+    }).on('error', reject);
+  });
+}
 
 // 微信登录
 router.post('/login', async (req, res) => {
@@ -11,10 +24,9 @@ router.post('/login', async (req, res) => {
   if (!code) return res.status(400).json({ error: '缺少code' });
 
   try {
-    const wxRes = await fetch(
+    const wxData = await wechatGet(
       `https://api.weixin.qq.com/sns/jscode2session?appid=${wechatAppId}&secret=${wechatSecret}&js_code=${code}&grant_type=authorization_code`
     );
-    const wxData = await wxRes.json();
     if (wxData.errcode) {
       return res.status(400).json({ error: '微信登录失败', detail: wxData.errmsg });
     }
