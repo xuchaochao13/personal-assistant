@@ -34,7 +34,8 @@ router.post('/login', async (req, res) => {
 
     res.json({ token, user: { id: user.id, nickname: user.nickname, avatar: user.avatar } });
   } catch (err) {
-    res.status(500).json({ error: '服务器错误' });
+    console.error('Login error:', err);
+    res.status(500).json({ error: '服务器错误', detail: err.message });
   }
 });
 
