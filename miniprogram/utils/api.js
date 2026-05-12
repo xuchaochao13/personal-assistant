@@ -23,8 +23,10 @@ function request(url, options = {}) {
           // auto retry after login
           loginPromise = loginPromise || require('./auth').login();
           loginPromise.then(() => {
+            loginPromise = null;
             request(url, { ...options, _retry: true }).then(resolve).catch(reject);
           }).catch(() => {
+            loginPromise = null;
             reject(res.data);
           });
         } else {
