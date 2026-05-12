@@ -1,33 +1,48 @@
+const https = require('https');
 const { deepseekApiKey, deepseekBaseUrl } = require('../config');
 
+function postStream(url, body) {
+  return new Promise((resolve, reject) => {
+    const u = new URL(url);
+    const req = https.request({
+      hostname: u.hostname,
+      path: u.pathname + u.search,
+      method: 'POST',
+      rejectUnauthorized: false,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${deepseekApiKey}`,
+        'Content-Length': Buffer.byteLength(body),
+      },
+    }, (res) => {
+      if (res.statusCode < 200 || res.statusCode >= 300) {
+        let errData = '';
+        res.on('data', (chunk) => { errData += chunk; });
+        res.on('end', () => reject(new Error(`DeepSeek API error: ${res.statusCode} ${errData}`)));
+        return;
+      }
+      resolve(res);
+    });
+    req.on('error', reject);
+    req.write(body);
+    req.end();
+  });
+}
+
 async function* streamChat(messages) {
-  const response = await fetch(`${deepseekBaseUrl}/v1/chat/completions`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${deepseekApiKey}`,
-    },
-    body: JSON.stringify({
-      model: 'deepseek-chat',
-      messages,
-      stream: true,
-      temperature: 0.7,
-    }),
+  const body = JSON.stringify({
+    model: 'deepseek-chat',
+    messages,
+    stream: true,
+    temperature: 0.7,
   });
 
-  if (!response.ok) {
-    const err = await response.text();
-    throw new Error(`DeepSeek API error: ${response.status} ${err}`);
-  }
-
-  const reader = response.body.getReader();
+  const stream = await postStream(`${deepseekBaseUrl}/v1/chat/completions`, body);
   const decoder = new TextDecoder();
   let buffer = '';
 
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    buffer += decoder.decode(value, { stream: true });
+  for await (const chunk of stream) {
+    buffer += decoder.decode(chunk, { stream: true });
     const lines = buffer.split('\n');
     buffer = lines.pop() || '';
     for (const line of lines) {

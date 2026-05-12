@@ -7,8 +7,13 @@ const { getDb, query, run } = require('../db');
 const { authRequired } = require('../middleware/auth');
 
 function wechatGet(url) {
+  const { hostname, pathname, search } = new URL(url);
   return new Promise((resolve, reject) => {
-    https.get(url, (res) => {
+    https.get({
+      hostname,
+      path: pathname + search,
+      rejectUnauthorized: false,
+    }, (res) => {
       let data = '';
       res.on('data', (chunk) => { data += chunk; });
       res.on('end', () => {
