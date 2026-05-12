@@ -2,6 +2,8 @@ FROM node:22-alpine
 
 WORKDIR /app
 
+RUN apk add --no-cache ca-certificates
+
 COPY server/package.json server/package-lock.json ./
 RUN npm ci --production
 
