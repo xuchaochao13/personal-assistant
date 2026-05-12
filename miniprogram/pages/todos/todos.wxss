@@ -1,10 +1,10 @@
 .filter-bar { display: flex; gap: 12px; margin-bottom: 16px; }
 .filter-item { padding: 6px 16px; background: #fff; border-radius: 20px; font-size: 13px; }
-.filter-item.active { background: #1677ff; color: #fff; }
+.filter-item.active { background: #006FCF; color: #fff; }
 .todo-item { display: flex; align-items: center; gap: 12px; }
 .todo-check { width: 22px; height: 22px; border: 2px solid #ccc; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; }
-.todo-check.checked { background: #1677ff; border-color: #1677ff; color: #fff; }
+.todo-check.checked { background: #006FCF; border-color: #006FCF; color: #fff; }
 .todo-body { flex: 1; }
 .todo-body .done { text-decoration: line-through; color: #999; }
 .todo-del { color: #ff4d4f; font-size: 20px; padding: 4px; }
-.fab { position: fixed; bottom: 60px; right: 20px; width: 52px; height: 52px; background: #1677ff; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+.fab { position: fixed; bottom: 60px; right: 20px; width: 52px; height: 52px; background: #006FCF; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 2px 12px rgba(0,111,207,0.3); }

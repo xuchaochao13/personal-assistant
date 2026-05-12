@@ -16,13 +16,13 @@
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#1677ff",
+    "navigationBarBackgroundColor": "#002663",
     "navigationBarTitleText": "私人助理",
     "navigationBarTextStyle": "white"
   },
   "tabBar": {
     "color": "#999",
-    "selectedColor": "#1677ff",
+    "selectedColor": "#006FCF",
     "list": [
       { "pagePath": "pages/index/index", "text": "首页" },
       { "pagePath": "pages/todos/todos", "text": "待办" },
