@@ -15,7 +15,7 @@
     </view>
     <view class="card card-stat" bindtap="goWeight">
       <view class="stat-num">{{latestWeight}}</view>
-      <view class="stat-label">最新体重</view>
+      <view class="stat-label">体重/kg</view>
     </view>
     <view class="card card-stat" bindtap="goReflections">
       <view class="stat-num">{{reflectionCount}}</view>
@@ -26,11 +26,26 @@
   <view class="card" wx:if="{{latestReflection}}">
     <view class="card-title">最新反思</view>
     <view class="text-muted">{{latestReflection.title}}</view>
-    <view>{{latestReflection.content}}</view>
+    <view style="margin-top: 8px; font-size: 14px; color: #374151;">{{latestReflection.content}}</view>
   </view>
 
   <view class="card" bindtap="goRecords">
-    <view class="card-title">更多功能</view>
-    <view class="text-muted">备忘录、健身记录等</view>
+    <view class="card-title" style="margin-bottom: 12px;">更多功能</view>
+    <view class="menu-item">
+      <view>备忘录</view>
+      <view class="menu-arrow">›</view>
+    </view>
+    <view class="menu-item">
+      <view>体重管理</view>
+      <view class="menu-arrow">›</view>
+    </view>
+    <view class="menu-item">
+      <view>健身记录</view>
+      <view class="menu-arrow">›</view>
+    </view>
+    <view class="menu-item" style="border-bottom: none;">
+      <view>反思记录</view>
+      <view class="menu-arrow">›</view>
+    </view>
   </view>
 </view>

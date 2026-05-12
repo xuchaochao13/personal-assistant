@@ -1,2 +1,58 @@
-.date-nav { display: flex; align-items: center; justify-content: center; gap: 20px; background: #fff; padding: 12px; border-radius: 8px; margin-bottom: 16px; }
-.date-text { font-size: 16px; font-weight: 600; }
+.date-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #FFFFFF;
+  padding: 14px 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  border: 1px solid #E5E7EB;
+}
+
+.date-nav text:first-child,
+.date-nav text:last-child {
+  font-size: 18px;
+  color: #006FCF;
+  padding: 4px 8px;
+  font-weight: 600;
+}
+
+.date-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.schedule-card {
+  border-left: 3px solid transparent;
+  transition: border-color 200ms ease;
+}
+
+.schedule-card.upcoming {
+  border-left-color: #006FCF;
+}
+
+.schedule-card.past {
+  border-left-color: #E5E7EB;
+  opacity: 0.7;
+}
+
+.schedule-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+.schedule-time {
+  font-size: 13px;
+  color: #64748B;
+  font-variant-numeric: tabular-nums;
+}
+
+.schedule-desc {
+  font-size: 13px;
+  color: #9CA3AF;
+  margin-top: 4px;
+}

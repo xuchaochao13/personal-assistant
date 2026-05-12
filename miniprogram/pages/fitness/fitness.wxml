@@ -1,21 +1,36 @@
 <view class="container">
-  <view wx:if="{{stats.total_minutes}}" class="card">
-    <view class="text-muted">总运动: {{stats.total_minutes}}分钟 | {{stats.sessions}}次</view>
+  <view wx:if="{{stats.total_minutes}}" class="card fitness-stats-card">
+    <view style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">运动统计</view>
+    <view>总时长 {{stats.total_minutes}} 分钟 / {{stats.sessions}} 次</view>
   </view>
 
-  <view wx:if="{{records.length === 0}}" class="empty-state">暂无健身记录</view>
+  <view wx:if="{{records.length === 0}}" class="empty-state">
+    <view class="empty-state-line"></view>
+    <view class="empty-state-label">暂无健身记录</view>
+    <view class="empty-state-hint">开始运动，记录每一次进步</view>
+  </view>
 
-  <view wx:for="{{records}}" wx:key="id" class="card">
-    <view>{{item.type}} - {{item.duration}}分钟</view>
-    <view class="text-muted">{{item.note}}</view>
+  <view wx:for="{{records}}" wx:key="id" class="card fitness-card">
+    <view class="fitness-type">{{item.type}}</view>
+    <view class="fitness-duration">{{item.duration}}<view class="unit">分钟</view></view>
+    <view class="fitness-info">
+      <view class="fitness-note" wx:if="{{item.note}}">{{item.note}}</view>
+    </view>
     <view class="todo-del" data-id="{{item.id}}" bindtap="del">×</view>
   </view>
 
-  <view wx:if="{{showForm}}" class="card">
-    <input value="{{type}}" bindinput="onInput" data-key="type" placeholder="运动类型" />
-    <input value="{{duration}}" bindinput="onInput" data-key="duration" placeholder="时长(分钟)" type="number" />
-    <input value="{{note}}" bindinput="onInput" data-key="note" placeholder="备注" />
-    <button class="btn-primary" bindtap="save">保存</button>
+  <view wx:if="{{showForm}}" class="form-card">
+    <view class="form-label">运动记录</view>
+    <input class="form-input" value="{{type}}" bindinput="onInput" data-key="type" placeholder="运动类型（如：跑步、游泳）" />
+    <view style="margin-top: 12px;">
+      <input class="form-input" value="{{duration}}" bindinput="onInput" data-key="duration" placeholder="时长（分钟）" type="number" />
+    </view>
+    <view style="margin-top: 12px;">
+      <input class="form-input" value="{{note}}" bindinput="onInput" data-key="note" placeholder="备注（可选）" />
+    </view>
+    <view style="margin-top: 16px;">
+      <button class="btn-primary" bindtap="save">保存记录</button>
+    </view>
   </view>
 
   <view class="fab" bindtap="showAdd">+</view>

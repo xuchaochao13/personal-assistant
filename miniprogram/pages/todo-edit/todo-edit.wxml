@@ -1,21 +1,26 @@
 <view class="container">
-  <view class="form-item">
-    <view class="label">标题</view>
-    <input value="{{title}}" bindinput="onInput" data-key="title" placeholder="待办事项..." />
+  <view class="form-card form-section">
+    <view class="form-label">标题</view>
+    <input class="form-input" value="{{title}}" bindinput="onInput" data-key="title" placeholder="待办事项..." />
   </view>
-  <view class="form-item">
-    <view class="label">优先级</view>
+
+  <view class="form-card form-section">
+    <view class="form-label">优先级</view>
     <view class="priority-picker">
       <view class="p-item {{priority === 1 ? 'active' : ''}}" data-p="1" bindtap="setPriority">低</view>
       <view class="p-item {{priority === 2 ? 'active' : ''}}" data-p="2" bindtap="setPriority">中</view>
       <view class="p-item {{priority === 3 ? 'active' : ''}}" data-p="3" bindtap="setPriority">高</view>
     </view>
   </view>
-  <view class="form-item">
-    <view class="label">截止日期</view>
+
+  <view class="form-card form-section">
+    <view class="form-label">截止日期</view>
     <picker mode="date" value="{{due_date}}" bindchange="setDate">
-      <view>{{due_date || '选择日期'}}</view>
+      <view class="form-input">{{due_date || '选择日期'}}</view>
     </picker>
   </view>
-  <button class="btn-primary" bindtap="save">保存</button>
+
+  <view class="save-bar">
+    <button class="btn-primary" bindtap="save">保存待办</button>
+  </view>
 </view>

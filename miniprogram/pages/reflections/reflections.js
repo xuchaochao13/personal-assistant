@@ -6,7 +6,8 @@ Page({
   async load() {
     try {
       const reflections = await api.get('/reflections');
-      reflections.forEach(r => { r.moodEmoji = '😊'.repeat(r.mood); });
+      const moodLabels = { 1: '糟糕', 2: '不太好', 3: '一般', 4: '不错', 5: '很棒' };
+      reflections.forEach(r => { r.moodLabel = moodLabels[r.mood] || ''; });
       this.setData({ reflections });
     } catch {}
   },

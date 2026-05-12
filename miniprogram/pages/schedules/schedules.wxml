@@ -5,12 +5,16 @@
     <view bindtap="nextDay">→</view>
   </view>
 
-  <view wx:if="{{schedules.length === 0}}" class="empty-state">今日无日程</view>
+  <view wx:if="{{schedules.length === 0}}" class="empty-state">
+    <view class="empty-state-line"></view>
+    <view class="empty-state-label">今日无日程</view>
+    <view class="empty-state-hint">享受空闲时光，或添加新日程</view>
+  </view>
 
-  <view wx:for="{{schedules}}" wx:key="id" class="card" bindtap="goEdit" data-id="{{item.id}}">
-    <view>{{item.title}}</view>
-    <view class="text-muted">{{item.start_time}} - {{item.end_time}}</view>
-    <view wx:if="{{item.description}}" class="text-muted">{{item.description}}</view>
+  <view wx:for="{{schedules}}" wx:key="id" class="card schedule-card" bindtap="goEdit" data-id="{{item.id}}">
+    <view class="schedule-title">{{item.title}}</view>
+    <view class="schedule-time">{{item.start_time}} - {{item.end_time}}</view>
+    <view wx:if="{{item.description}}" class="schedule-desc">{{item.description}}</view>
   </view>
 
   <view class="fab" bindtap="goNew">+</view>

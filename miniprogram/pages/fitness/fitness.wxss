@@ -1,1 +1,48 @@
-/* styles in app.wxss */
+.fitness-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.fitness-type {
+  font-size: 14px;
+  font-weight: 700;
+  color: #006FCF;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-width: 60px;
+}
+
+.fitness-duration {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.fitness-duration .unit {
+  font-size: 14px;
+  font-weight: 500;
+  color: #64748B;
+}
+
+.fitness-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.fitness-note {
+  font-size: 13px;
+  color: #64748B;
+  margin-top: 2px;
+}
+
+.fitness-stats-card {
+  background: linear-gradient(135deg, #059669, #047857);
+  color: #FFFFFF;
+  border: none;
+}
+
+.fitness-stats-card text,
+.fitness-stats-card view {
+  color: #FFFFFF;
+}

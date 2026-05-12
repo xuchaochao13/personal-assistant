@@ -1,1 +1,15 @@
-/* styles in app.wxss */
+.memo-card .memo-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+.memo-card .memo-preview {
+  font-size: 13px;
+  color: #64748B;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

@@ -1,15 +1,20 @@
 <view class="container">
-  <view class="form-item">
-    <view class="label">标题</view>
-    <input value="{{title}}" bindinput="onInput" data-key="title" placeholder="备忘标题" />
+  <view class="form-card form-section">
+    <view class="form-label">标题</view>
+    <input class="form-input" value="{{title}}" bindinput="onInput" data-key="title" placeholder="备忘标题" />
   </view>
-  <view class="form-item">
-    <view class="label">内容</view>
-    <textarea value="{{content}}" bindinput="onInput" data-key="content" placeholder="备忘内容" />
+
+  <view class="form-card form-section">
+    <view class="form-label">内容</view>
+    <textarea value="{{content}}" bindinput="onInput" data-key="content" placeholder="备忘内容..." />
   </view>
-  <view class="form-item">
-    <view class="label">标签 (逗号分隔)</view>
-    <input value="{{tagsStr}}" bindinput="onInput" data-key="tagsStr" placeholder="工作, 重要" />
+
+  <view class="form-card form-section">
+    <view class="form-label">标签（逗号分隔）</view>
+    <input class="form-input" value="{{tagsStr}}" bindinput="onInput" data-key="tagsStr" placeholder="工作, 重要" />
   </view>
-  <button class="btn-primary" bindtap="save">保存</button>
+
+  <view class="save-bar">
+    <button class="btn-primary" bindtap="save">保存备忘</button>
+  </view>
 </view>

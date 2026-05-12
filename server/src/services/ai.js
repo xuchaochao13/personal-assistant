@@ -46,7 +46,7 @@ async function* streamChat(messages) {
     temperature: 0.7,
   });
 
-  const apiUrl = `${deepseekBaseUrl}/v1/chat/completions`;
+  const apiUrl = `${deepseekBaseUrl.replace(/\/+$/, '')}/v1/chat/completions`;
   const stream = await postStream(apiUrl, body);
   const decoder = new TextDecoder();
   let buffer = '';

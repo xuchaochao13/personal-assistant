@@ -1,1 +1,49 @@
-.card { font-size: 16px; font-weight: 500; cursor: pointer; }
+.section-header {
+  font-size: 20px;
+  font-weight: 700;
+  color: #002663;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.menu-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 16px;
+}
+
+.menu-dot {
+  width: 8px;
+  height: 8px;
+  min-width: 8px;
+  border-radius: 50%;
+}
+
+.memo-dot       { background: #006FCF; }
+.weight-dot     { background: #059669; }
+.fitness-dot    { background: #D97706; }
+.reflection-dot { background: #7C3AED; }
+
+.menu-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.menu-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 2px;
+}
+
+.menu-desc {
+  font-size: 13px;
+  color: #64748B;
+}
+
+.menu-arrow {
+  font-size: 22px;
+  color: #94A3B8;
+  font-weight: 300;
+}

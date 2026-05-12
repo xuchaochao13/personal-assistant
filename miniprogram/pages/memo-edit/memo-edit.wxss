@@ -1,3 +1,26 @@
-.form-item { background: #fff; padding: 12px 16px; margin-bottom: 8px; }
-.label { font-size: 12px; color: #999; margin-bottom: 4px; }
-textarea { width: 100%; min-height: 100px; }
+.form-section {
+  margin-bottom: 16px;
+}
+
+textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 12px 14px;
+  font-size: 15px;
+  background: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  box-sizing: border-box;
+  line-height: 1.6;
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+
+textarea:focus {
+  border-color: #006FCF;
+  box-shadow: 0 0 0 3px rgba(0,111,207,0.1);
+  background: #FFFFFF;
+}
+
+.save-bar {
+  margin-top: 24px;
+}

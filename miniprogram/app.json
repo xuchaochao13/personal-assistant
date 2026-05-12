@@ -21,8 +21,10 @@
     "navigationBarTextStyle": "white"
   },
   "tabBar": {
-    "color": "#999",
+    "color": "#94A3B8",
     "selectedColor": "#006FCF",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
     "list": [
       { "pagePath": "pages/index/index", "text": "首页" },
       { "pagePath": "pages/todos/todos", "text": "待办" },

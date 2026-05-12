@@ -1,10 +1,71 @@
-.filter-bar { display: flex; gap: 12px; margin-bottom: 16px; }
-.filter-item { padding: 6px 16px; background: #fff; border-radius: 20px; font-size: 13px; }
-.filter-item.active { background: #006FCF; color: #fff; }
-.todo-item { display: flex; align-items: center; gap: 12px; }
-.todo-check { width: 22px; height: 22px; border: 2px solid #ccc; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; }
-.todo-check.checked { background: #006FCF; border-color: #006FCF; color: #fff; }
-.todo-body { flex: 1; }
-.todo-body .done { text-decoration: line-through; color: #999; }
-.todo-del { color: #ff4d4f; font-size: 20px; padding: 4px; }
-.fab { position: fixed; bottom: 60px; right: 20px; width: 52px; height: 52px; background: #006FCF; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 2px 12px rgba(0,111,207,0.3); }
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filter-item {
+  padding: 8px 18px;
+  background: #F1F5F9;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #64748B;
+  transition: all 200ms ease;
+}
+
+.filter-item.active {
+  background: #006FCF;
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(0,111,207,0.2);
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.todo-check {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  border: 2px solid #D1D5DB;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #FFFFFF;
+  transition: all 200ms ease;
+}
+
+.todo-check.checked {
+  background: #006FCF;
+  border-color: #006FCF;
+  transform: scale(1.05);
+}
+
+.todo-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.todo-body view:first-child {
+  font-size: 15px;
+  font-weight: 500;
+  color: #111827;
+}
+
+.todo-body .done {
+  text-decoration: line-through;
+  color: #9CA3AF;
+}
+
+.todo-del {
+  color: #DC2626;
+  font-size: 22px;
+  padding: 6px 8px;
+  font-weight: 300;
+  line-height: 1;
+}

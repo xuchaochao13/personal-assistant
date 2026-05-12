@@ -1,2 +1,7 @@
-.form-item { background: #fff; padding: 12px 16px; margin-bottom: 8px; }
-.label { font-size: 12px; color: #999; margin-bottom: 4px; }
+.form-section {
+  margin-bottom: 16px;
+}
+
+.save-bar {
+  margin-top: 24px;
+}

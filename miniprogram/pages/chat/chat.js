@@ -27,7 +27,6 @@ Page({
 
   sendMessage() {
     const { input, currentSessionId, messages } = this.data;
-    console.log('sendMessage called, input:', input, 'streaming:', this.data.streaming);
     if (!input.trim() || this.data.streaming) return;
 
     const userMsg = { role: 'user', content: input };
@@ -39,28 +38,56 @@ Page({
     this.setData({ messages: newMessages });
 
     let buffer = '';
+    let hasContent = false;
 
     const task = wx.request({
       url: api.BASE_URL + '/chat',
       method: 'POST',
       enableChunked: true,
+      timeout: 60000,
       header: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${getApp().globalData.token}` },
       data: { session_id: currentSessionId || undefined, message: input },
-      success: () => { this.setData({ streaming: false }); this.loadSessions(); },
-      fail: () => { this.setData({ streaming: false }); },
+      success: () => {
+        this.setData({ streaming: false });
+        if (!hasContent) {
+          console.log('buffer remaining:', JSON.stringify(buffer));
+          const msgs = this.data.messages;
+          msgs[msgs.length - 1].content = 'AI 未返回内容，请重试';
+          this.setData({ messages: msgs });
+        }
+        this.loadSessions();
+      },
+      fail: (err) => {
+        console.error('Chat request failed:', err);
+        const msgs = this.data.messages;
+        const errMsg = err.errMsg || '';
+        if (errMsg.includes('timeout')) {
+          msgs[msgs.length - 1].content = '请求超时，请检查网络后重试';
+        } else if (errMsg.includes('fail')) {
+          msgs[msgs.length - 1].content = '网络连接失败，请稍后重试';
+        } else {
+          msgs[msgs.length - 1].content = '请求失败：' + (errMsg || '未知错误');
+        }
+        this.setData({ messages: msgs, streaming: false });
+      },
     });
 
     task.onChunkReceived((res) => {
-      console.log('chunk received, length:', res.data.length);
-      buffer += res.data;
+      const raw = res.data;
+      const chunk = typeof raw === 'string' ? raw : this._arrayBufferToString(raw);
+      console.log('chunk received, bytes:', chunk.length, 'preview:', chunk.slice(0, 200));
+      buffer += chunk;
       const frames = buffer.split('\n\n');
       buffer = frames.pop() || '';
+      console.log('frames to process:', frames.length);
       for (const frame of frames) {
         const line = frame.trim();
+        console.log('frame line:', line.slice(0, 120));
         if (!line.startsWith('data: ')) continue;
         try {
           const json = JSON.parse(line.slice(6));
           if (json.content) {
+            hasContent = true;
             const msgs = this.data.messages;
             msgs[msgs.length - 1].content += json.content;
             this.setData({ messages: msgs });
@@ -76,6 +103,16 @@ Page({
         } catch {}
       }
     });
+  },
+
+  _arrayBufferToString(buf) {
+    const uint8 = new Uint8Array(buf);
+    const chunkSize = 8192;
+    let str = '';
+    for (let i = 0; i < uint8.byteLength; i += chunkSize) {
+      str += String.fromCharCode.apply(null, uint8.subarray(i, i + chunkSize));
+    }
+    return str;
   },
 
   deleteSession(e) {

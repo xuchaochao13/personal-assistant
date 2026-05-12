@@ -1,14 +1,18 @@
 <view class="container">
   <view class="filter-bar">
-    <view class="filter-item {{filter === 'active' ? 'active' : ''}}" data-filter="active" bindtap="setFilter">
+    <view class="chip {{filter === 'active' ? 'active' : ''}}" data-filter="active" bindtap="setFilter">
       进行中 ({{activeCount}})
     </view>
-    <view class="filter-item {{filter === 'done' ? 'active' : ''}}" data-filter="done" bindtap="setFilter">
+    <view class="chip {{filter === 'done' ? 'active' : ''}}" data-filter="done" bindtap="setFilter">
       已完成 ({{doneCount}})
     </view>
   </view>
 
-  <view wx:if="{{todos.length === 0}}" class="empty-state">暂无待办事项</view>
+  <view wx:if="{{todos.length === 0}}" class="empty-state">
+    <view class="empty-state-line"></view>
+    <view class="empty-state-label">暂无待办事项</view>
+    <view class="empty-state-hint">点击下方按钮添加新待办</view>
+  </view>
 
   <view wx:for="{{todos}}" wx:key="id" class="card todo-item">
     <view class="todo-check {{item.completed ? 'checked' : ''}}"

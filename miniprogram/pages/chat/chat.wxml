@@ -1,30 +1,37 @@
 <view class="chat-container">
-  <view wx:if="{{currentSessionId === '' && messages.length === 0}}">
-    <button bindtap="newSession" class="btn-primary">新建对话</button>
+  <!-- Session List (no active session) -->
+  <view wx:if="{{currentSessionId === '' && messages.length === 0}}" class="session-list">
+    <view class="session-header">AI 助手</view>
+
+    <view class="new-session-btn" bindtap="newSession">新建对话</view>
+
     <view wx:for="{{sessions}}" wx:key="session_id" class="card session-item"
       bindtap="openSession" data-id="{{item.session_id}}">
-      <view>{{item.last_message}}</view>
-      <view class="text-muted">{{item.created_at}}</view>
-      <view class="todo-del" data-id="{{item.session_id}}" catchtap="deleteSession">×</view>
+      <view class="session-preview">
+        <view class="session-preview-text">{{item.last_message || '新对话'}}</view>
+        <view class="session-time">{{item.created_at}}</view>
+      </view>
+      <view class="session-del" data-id="{{item.session_id}}" catchtap="deleteSession">×</view>
     </view>
   </view>
 
+  <!-- Active Chat -->
   <view wx:if="{{currentSessionId !== '' || messages.length > 0}}" class="chat-body">
     <scroll-view scroll-y class="messages" scroll-into-view="msg-{{messages.length - 1}}">
       <view wx:for="{{messages}}" wx:key="index" id="msg-{{index}}" class="msg {{item.role}}">
-        <view class="bubble">{{item.content}}</view>
+        <view class="msg-bubble">{{item.content}}</view>
       </view>
     </scroll-view>
+
+    <view class="quick-actions">
+      <view class="quick-chip" bindtap="quickAction" data-key="summary">今日总结</view>
+      <view class="quick-chip" bindtap="quickAction" data-key="review">本周回顾</view>
+      <view class="quick-chip" bindtap="quickAction" data-key="suggest">提升建议</view>
+    </view>
 
     <view class="input-bar">
       <input value="{{input}}" bindinput="onInput" placeholder="输入消息..." confirm-type="send" bindconfirm="sendMessage" />
       <button bindtap="sendMessage" disabled="{{streaming}}">发送</button>
-    </view>
-
-    <view class="quick-actions">
-      <view bindtap="quickAction" data-key="summary">今日总结</view>
-      <view bindtap="quickAction" data-key="review">本周回顾</view>
-      <view bindtap="quickAction" data-key="suggest">提升建议</view>
     </view>
   </view>
 </view>

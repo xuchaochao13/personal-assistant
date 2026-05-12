@@ -7,48 +7,54 @@ const { streamChat } = require('../services/ai');
 router.use(authRequired);
 
 router.post('/', async (req, res) => {
-  const { session_id: sid, message } = req.body;
-  if (!message) return res.status(400).json({ error: '消息不能为空' });
-
-  await getDb();
-  const sessionId = sid || `sess_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
-
-  run('INSERT INTO chat_history (user_id, session_id, role, content) VALUES (?, ?, ?, ?)',
-    [req.user.openid, sessionId, 'user', message]);
-
-  const history = query(
-    'SELECT role, content FROM chat_history WHERE user_id = ? AND session_id = ? ORDER BY created_at ASC LIMIT 40',
-    [req.user.openid, sessionId]
-  );
-
-  const messages = [
-    {
-      role: 'system',
-      content: `你是用户的私人AI助理。你可以帮助用户管理待办事项、日程、备忘录、体重、健身和反思记录。请用中文回复，简洁实用。`,
-    },
-    ...history.map(h => ({ role: h.role, content: h.content })),
-  ];
-
-  res.writeHead(200, {
-    'Content-Type': 'text/event-stream',
-    'Cache-Control': 'no-cache',
-    'Connection': 'keep-alive',
-  });
-
-  let fullResponse = '';
-
   try {
-    for await (const chunk of streamChat(messages)) {
-      fullResponse += chunk;
-      res.write(`data: ${JSON.stringify({ content: chunk })}\n\n`);
-    }
+    const { session_id: sid, message } = req.body;
+    if (!message) return res.status(400).json({ error: '消息不能为空' });
+
+    await getDb();
+    const sessionId = sid || `sess_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+
     run('INSERT INTO chat_history (user_id, session_id, role, content) VALUES (?, ?, ?, ?)',
-      [req.user.openid, sessionId, 'assistant', fullResponse]);
-    res.write(`data: ${JSON.stringify({ session_id: sessionId, done: true })}\n\n`);
+      [req.user.openid, sessionId, 'user', message]);
+
+    const history = query(
+      'SELECT role, content FROM chat_history WHERE user_id = ? AND session_id = ? ORDER BY created_at ASC LIMIT 40',
+      [req.user.openid, sessionId]
+    );
+
+    const messages = [
+      {
+        role: 'system',
+        content: `你是用户的私人AI助理。你可以帮助用户管理待办事项、日程、备忘录、体重、健身和反思记录。请用中文回复，简洁实用。`,
+      },
+      ...history.map(h => ({ role: h.role, content: h.content })),
+    ];
+
+    res.writeHead(200, {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      'Connection': 'keep-alive',
+    });
+
+    let fullResponse = '';
+
+    try {
+      for await (const chunk of streamChat(messages)) {
+        fullResponse += chunk;
+        res.write(`data: ${JSON.stringify({ content: chunk })}\n\n`);
+      }
+      run('INSERT INTO chat_history (user_id, session_id, role, content) VALUES (?, ?, ?, ?)',
+        [req.user.openid, sessionId, 'assistant', fullResponse]);
+      res.write(`data: ${JSON.stringify({ session_id: sessionId, done: true })}\n\n`);
+    } catch (err) {
+      console.error('AI stream error:', err.message);
+      res.write(`data: ${JSON.stringify({ error: err.message })}\n\n`);
+    }
+    res.end();
   } catch (err) {
-    res.write(`data: ${JSON.stringify({ error: err.message })}\n\n`);
+    console.error('Chat route error:', err.message);
+    res.status(500).json({ error: err.message });
   }
-  res.end();
 });
 
 router.get('/sessions', async (req, res) => {

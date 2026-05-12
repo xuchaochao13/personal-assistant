@@ -1,9 +1,15 @@
 <view class="container">
-  <view wx:if="{{reflections.length === 0}}" class="empty-state">暂无反思记录</view>
-  <view wx:for="{{reflections}}" wx:key="id" class="card" bindtap="goEdit" data-id="{{item.id}}">
-    <view>{{item.title}}</view>
-    <view class="text-muted">心情: {{item.moodEmoji}}</view>
-    <view class="text-muted">{{item.content}}</view>
+  <view wx:if="{{reflections.length === 0}}" class="empty-state">
+    <view class="empty-state-line"></view>
+    <view class="empty-state-label">暂无反思记录</view>
+    <view class="empty-state-hint">每日反思，助你成长</view>
   </view>
+
+  <view wx:for="{{reflections}}" wx:key="id" class="card reflection-card" bindtap="goEdit" data-id="{{item.id}}">
+    <view class="reflection-title">{{item.title}}</view>
+    <view class="reflection-mood">{{item.moodLabel}}</view>
+    <view class="reflection-preview">{{item.content}}</view>
+  </view>
+
   <view class="fab" bindtap="goNew">+</view>
 </view>

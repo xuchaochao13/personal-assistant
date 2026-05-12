@@ -1,1 +1,47 @@
-/* styles in app.wxss */
+.weight-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.weight-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+  min-width: 80px;
+  text-align: center;
+}
+
+.weight-unit {
+  font-size: 14px;
+  font-weight: 500;
+  color: #64748B;
+}
+
+.weight-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.weight-date {
+  font-size: 14px;
+  font-weight: 500;
+  color: #111827;
+}
+
+.weight-note {
+  font-size: 13px;
+  color: #64748B;
+  margin-top: 2px;
+}
+
+.weight-stats-card .stat-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 14px;
+}
+
+.weight-stats-card .stat-row:not(:last-child) {
+  border-bottom: 1px solid #F1F5F9;
+}

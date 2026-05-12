@@ -1,42 +1,94 @@
 .header {
-  padding: 24px 0;
+  padding: 8px 0 28px;
   text-align: center;
 }
+
 .greeting {
-  font-size: 20px;
-  font-weight: bold;
-  color: #1A1A1A;
-}
-.date {
-  font-size: 13px;
-  color: #6B7280;
-  margin-top: 4px;
+  font-size: 24px;
+  font-weight: 700;
+  color: #002663;
+  letter-spacing: -0.5px;
 }
 
+.date {
+  font-size: 13px;
+  color: #64748B;
+  margin-top: 4px;
+  font-weight: 400;
+}
+
+/* Stat Grid */
 .grid {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-bottom: 12px;
-}
-.card-stat {
-  width: calc(50% - 14px);
-  text-align: center;
-  padding: 20px 16px;
-}
-.stat-num {
-  font-size: 28px;
-  font-weight: bold;
-  color: #002663;
-}
-.stat-label {
-  font-size: 13px;
-  color: #6B7280;
-  margin-top: 4px;
+  margin-bottom: 16px;
 }
 
+.card-stat {
+  width: calc(50% - 6px);
+  text-align: left;
+  padding: 20px 16px;
+  border-left: 3px solid #006FCF;
+  border-radius: 12px;
+}
+
+.card-stat:nth-child(2) {
+  border-left-color: #002663;
+}
+
+.card-stat:nth-child(3) {
+  border-left-color: #059669;
+}
+
+.card-stat:nth-child(4) {
+  border-left-color: #7C3AED;
+}
+
+.stat-num {
+  font-size: 30px;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.1;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #64748B;
+  margin-top: 6px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+/* Section card */
 .card-title {
   font-size: 15px;
-  font-weight: bold;
+  font-weight: 700;
+  color: #111827;
   margin-bottom: 8px;
+}
+
+.card .card-title {
+  margin-bottom: 10px;
+}
+
+/* More features */
+.menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  font-size: 15px;
+  font-weight: 500;
+  color: #111827;
+}
+
+.menu-item:not(:last-child) {
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.menu-arrow {
+  color: #94A3B8;
+  font-size: 16px;
 }

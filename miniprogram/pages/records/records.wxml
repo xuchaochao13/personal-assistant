@@ -1,6 +1,39 @@
-<view class="container">
-  <view class="card" bindtap="goMemo">📖 备忘录</view>
-  <view class="card" bindtap="goWeight">⚖️ 体重管理</view>
-  <view class="card" bindtap="goFitness">🏃 健身记录</view>
-  <view class="card" bindtap="goReflection">💭 反思记录</view>
+<view class="container" style="padding-top: 8px;">
+  <view class="section-header">功能菜单</view>
+
+  <view class="card menu-card" bindtap="goMemo">
+    <view class="menu-dot memo-dot"></view>
+    <view class="menu-body">
+      <view class="menu-label">备忘录</view>
+      <view class="menu-desc">记录重要事项与笔记</view>
+    </view>
+    <view class="menu-arrow">›</view>
+  </view>
+
+  <view class="card menu-card" bindtap="goWeight">
+    <view class="menu-dot weight-dot"></view>
+    <view class="menu-body">
+      <view class="menu-label">体重管理</view>
+      <view class="menu-desc">追踪体重变化趋势</view>
+    </view>
+    <view class="menu-arrow">›</view>
+  </view>
+
+  <view class="card menu-card" bindtap="goFitness">
+    <view class="menu-dot fitness-dot"></view>
+    <view class="menu-body">
+      <view class="menu-label">健身记录</view>
+      <view class="menu-desc">记录每次运动数据</view>
+    </view>
+    <view class="menu-arrow">›</view>
+  </view>
+
+  <view class="card menu-card" bindtap="goReflection">
+    <view class="menu-dot reflection-dot"></view>
+    <view class="menu-body">
+      <view class="menu-label">反思记录</view>
+      <view class="menu-desc">每日反思与自我成长</view>
+    </view>
+    <view class="menu-arrow">›</view>
+  </view>
 </view>
