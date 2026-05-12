@@ -27,6 +27,7 @@ Page({
 
   sendMessage() {
     const { input, currentSessionId, messages } = this.data;
+    console.log('sendMessage called, input:', input, 'streaming:', this.data.streaming);
     if (!input.trim() || this.data.streaming) return;
 
     const userMsg = { role: 'user', content: input };
@@ -36,6 +37,8 @@ Page({
     const aiMsg = { role: 'assistant', content: '' };
     newMessages.push(aiMsg);
     this.setData({ messages: newMessages });
+
+    let buffer = '';
 
     const task = wx.request({
       url: api.BASE_URL + '/chat',
@@ -48,17 +51,30 @@ Page({
     });
 
     task.onChunkReceived((res) => {
-      try {
-        const json = JSON.parse(res.data.slice(6));
-        if (json.content) {
-          const msgs = this.data.messages;
-          msgs[msgs.length - 1].content += json.content;
-          this.setData({ messages: msgs });
-        }
-        if (json.session_id) {
-          this.setData({ currentSessionId: json.session_id });
-        }
-      } catch {}
+      console.log('chunk received, length:', res.data.length);
+      buffer += res.data;
+      const frames = buffer.split('\n\n');
+      buffer = frames.pop() || '';
+      for (const frame of frames) {
+        const line = frame.trim();
+        if (!line.startsWith('data: ')) continue;
+        try {
+          const json = JSON.parse(line.slice(6));
+          if (json.content) {
+            const msgs = this.data.messages;
+            msgs[msgs.length - 1].content += json.content;
+            this.setData({ messages: msgs });
+          }
+          if (json.session_id) {
+            this.setData({ currentSessionId: json.session_id });
+          }
+          if (json.error) {
+            const msgs = this.data.messages;
+            msgs[msgs.length - 1].content = '[错误] ' + json.error;
+            this.setData({ messages: msgs, streaming: false });
+          }
+        } catch {}
+      }
     });
   },
 
