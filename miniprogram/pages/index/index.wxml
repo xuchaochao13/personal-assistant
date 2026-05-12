@@ -1,0 +1,36 @@
+<view class="container">
+  <view class="header">
+    <view class="greeting">{{greeting}}</view>
+    <view class="date">{{todayStr}}</view>
+  </view>
+
+  <view class="grid">
+    <view class="card card-stat" bindtap="goTodos">
+      <view class="stat-num">{{todoCount}}</view>
+      <view class="stat-label">待办事项</view>
+    </view>
+    <view class="card card-stat" bindtap="goSchedules">
+      <view class="stat-num">{{scheduleCount}}</view>
+      <view class="stat-label">今日日程</view>
+    </view>
+    <view class="card card-stat" bindtap="goWeight">
+      <view class="stat-num">{{latestWeight}}</view>
+      <view class="stat-label">最新体重</view>
+    </view>
+    <view class="card card-stat" bindtap="goReflections">
+      <view class="stat-num">{{reflectionCount}}</view>
+      <view class="stat-label">反思记录</view>
+    </view>
+  </view>
+
+  <view class="card" wx:if="{{latestReflection}}">
+    <view class="card-title">最新反思</view>
+    <view class="text-muted">{{latestReflection.title}}</view>
+    <view>{{latestReflection.content}}</view>
+  </view>
+
+  <view class="card" bindtap="goRecords">
+    <view class="card-title">更多功能</view>
+    <view class="text-muted">备忘录、健身记录等</view>
+  </view>
+</view>
