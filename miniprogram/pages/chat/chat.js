@@ -37,6 +37,7 @@ Page({
     newMessages.push(aiMsg);
     this.setData({ messages: newMessages });
 
+    const decoder = new TextDecoder('utf-8');
     let buffer = '';
     let hasContent = false;
 
@@ -74,7 +75,7 @@ Page({
 
     task.onChunkReceived((res) => {
       const raw = res.data;
-      const chunk = typeof raw === 'string' ? raw : this._arrayBufferToString(raw);
+      const chunk = typeof raw === 'string' ? raw : decoder.decode(raw, { stream: true });
       console.log('chunk received, bytes:', chunk.length, 'preview:', chunk.slice(0, 200));
       buffer += chunk;
       const frames = buffer.split('\n\n');
@@ -103,16 +104,6 @@ Page({
         } catch {}
       }
     });
-  },
-
-  _arrayBufferToString(buf) {
-    const uint8 = new Uint8Array(buf);
-    const chunkSize = 8192;
-    let str = '';
-    for (let i = 0; i < uint8.byteLength; i += chunkSize) {
-      str += String.fromCharCode.apply(null, uint8.subarray(i, i + chunkSize));
-    }
-    return str;
   },
 
   deleteSession(e) {
