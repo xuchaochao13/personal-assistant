@@ -34,7 +34,7 @@
     </view>
 
     <view class="input-bar">
-      <input value="{{input}}" bindinput="onInput" placeholder="输入消息..." confirm-type="send" bindconfirm="sendMessage" />
+      <input value="{{input}}" bindinput="onInput" placeholder="输入消息..." confirm-type="send" bindconfirm="sendMessage" cursor-spacing="8" />
       <button bindtap="sendMessage" disabled="{{streaming}}">发送</button>
     </view>
   </view>

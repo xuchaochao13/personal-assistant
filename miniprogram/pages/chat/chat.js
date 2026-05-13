@@ -16,9 +16,11 @@ Page({
   },
 
   async openSession(e) {
-    const sid = e.currentTarget.dataset.id;
-    const messages = await api.get(`/chat/sessions/${sid}`);
-    this.setData({ currentSessionId: sid, messages });
+    try {
+      const sid = e.currentTarget.dataset.id;
+      const messages = await api.get(`/chat/sessions/${sid}`);
+      this.setData({ currentSessionId: sid, messages });
+    } catch {}
   },
 
   newSession() {
@@ -101,6 +103,12 @@ Page({
           if (json.session_id) {
             this.setData({ currentSessionId: json.session_id });
           }
+          if (json.action) {
+            const msgs = this.data.messages;
+            msgs.push({ role: 'system', content: '✓ ' + json.action });
+            msgs.push({ role: 'assistant', content: '' });
+            this.setData({ messages: msgs });
+          }
           if (json.error) {
             const msgs = this.data.messages;
             msgs[msgs.length - 1].content = '[错误] ' + json.error;
@@ -138,4 +146,5 @@ Page({
   },
 
   onInput(e) { this.setData({ input: e.detail.value }); },
+
 });

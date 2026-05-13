@@ -5,6 +5,7 @@ let loginPromise = null;
 function request(url, options = {}) {
   const app = getApp();
   const token = app.globalData.token;
+  const maxRetries = options._retryCount || 0;
 
   return new Promise((resolve, reject) => {
     wx.request({
@@ -18,9 +19,13 @@ function request(url, options = {}) {
       success(res) {
         if (res.statusCode >= 200 && res.statusCode < 300) {
           resolve(res.data);
+        } else if (res.statusCode === 503 && maxRetries < 2) {
+          wx.showToast({ title: '服务启动中，自动重试...', icon: 'loading', duration: 5000 });
+          setTimeout(() => {
+            request(url, { ...options, _retryCount: maxRetries + 1 }).then(resolve).catch(reject);
+          }, 5000);
         } else if (res.statusCode === 401 && !options._retry) {
           app.globalData.token = '';
-          // auto retry after login
           loginPromise = loginPromise || require('./auth').login();
           loginPromise.then(() => {
             loginPromise = null;

@@ -1,7 +1,12 @@
+page {
+  height: 100%;
+  overflow: hidden;
+}
+
 .chat-container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
   background: #F4F6F8;
 }
 
@@ -123,6 +128,22 @@
 
 .msg.assistant {
   align-items: flex-start;
+}
+
+.msg.system {
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.msg.system .msg-bubble {
+  background: #EFF6FF;
+  color: #006FCF;
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 12px;
+  box-shadow: none;
+  border: none;
+  max-width: 90%;
 }
 
 .msg-bubble {

@@ -29,21 +29,21 @@
     <view style="margin-top: 8px; font-size: 14px; color: #374151;">{{latestReflection.content}}</view>
   </view>
 
-  <view class="card" bindtap="goRecords">
+  <view class="card">
     <view class="card-title" style="margin-bottom: 12px;">更多功能</view>
-    <view class="menu-item">
+    <view class="menu-item" bindtap="goMemos">
       <view>备忘录</view>
       <view class="menu-arrow">›</view>
     </view>
-    <view class="menu-item">
+    <view class="menu-item" bindtap="goWeight">
       <view>体重管理</view>
       <view class="menu-arrow">›</view>
     </view>
-    <view class="menu-item">
+    <view class="menu-item" bindtap="goFitness">
       <view>健身记录</view>
       <view class="menu-arrow">›</view>
     </view>
-    <view class="menu-item" style="border-bottom: none;">
+    <view class="menu-item" style="border-bottom: none;" bindtap="goReflections">
       <view>反思记录</view>
       <view class="menu-arrow">›</view>
     </view>

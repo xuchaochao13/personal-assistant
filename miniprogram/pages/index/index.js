@@ -43,5 +43,6 @@ Page({
   goSchedules() { wx.switchTab({ url: '/pages/schedules/schedules' }); },
   goWeight() { wx.navigateTo({ url: '/pages/weight/weight' }); },
   goReflections() { wx.navigateTo({ url: '/pages/reflections/reflections' }); },
-  goRecords() { wx.navigateTo({ url: '/pages/records/records' }); },
+  goMemos() { wx.navigateTo({ url: '/pages/memos/memos' }); },
+  goFitness() { wx.navigateTo({ url: '/pages/fitness/fitness' }); },
 });

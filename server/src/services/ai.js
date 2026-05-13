@@ -38,14 +38,18 @@ function postStream(apiUrl, body) {
   });
 }
 
-async function* streamChat(messages) {
-  const body = JSON.stringify({
+async function* streamChat(messages, tools) {
+  const bodyObj = {
     model: 'deepseek-chat',
     messages,
     stream: true,
     temperature: 0.7,
-  });
+  };
+  if (tools && tools.length > 0) {
+    bodyObj.tools = tools;
+  }
 
+  const body = JSON.stringify(bodyObj);
   const apiUrl = `${deepseekBaseUrl.replace(/\/+$/, '')}/v1/chat/completions`;
   const stream = await postStream(apiUrl, body);
   const decoder = new TextDecoder();
@@ -61,8 +65,25 @@ async function* streamChat(messages) {
         if (data === '[DONE]') return;
         try {
           const json = JSON.parse(data);
-          const content = json.choices?.[0]?.delta?.content;
-          if (content) yield content;
+          const choice = json.choices?.[0];
+          const delta = choice?.delta;
+
+          // text content
+          if (delta?.content) {
+            yield { type: 'content', content: delta.content };
+          }
+
+          // tool calls
+          if (delta?.tool_calls) {
+            for (const tc of delta.tool_calls) {
+              yield {
+                type: 'tool_call',
+                id: tc.id,
+                index: tc.index,
+                function: tc.function,
+              };
+            }
+          }
         } catch {}
       }
     }
