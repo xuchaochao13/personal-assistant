@@ -1,10 +1,14 @@
 const api = require('../../utils/api');
 const { login } = require('../../utils/auth');
+const { requestAll } = require('../../utils/subscribe');
 
 Page({
   data: { todos: [], filter: 'active', activeCount: 0, doneCount: 0 },
 
-  onShow() { this.load(); },
+  onShow() {
+    this.load();
+    setTimeout(() => { requestAll(); }, 2000);
+  },
 
   async load() {
     try {

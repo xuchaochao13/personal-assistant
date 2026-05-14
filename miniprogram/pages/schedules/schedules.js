@@ -1,4 +1,5 @@
 const api = require('../../utils/api');
+const { requestAll } = require('../../utils/subscribe');
 
 const WEEKDAYS = ['日', '一', '二', '三', '四', '五', '六'];
 
@@ -32,6 +33,7 @@ Page({
       }
     }
     this.load();
+    setTimeout(() => { requestAll(); }, 2000);
   },
 
   fmt(d) {

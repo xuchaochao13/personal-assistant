@@ -1,6 +1,5 @@
 const api = require('../../utils/api');
 const { requestAll } = require('../../utils/subscribe');
-let subscribeAsked = false;
 
 const QUOTES = [
   '认识你自己。— 苏格拉底',
@@ -52,10 +51,8 @@ Page({
 
   onShow() {
     this.load();
-    if (!subscribeAsked) {
-      subscribeAsked = true;
-      setTimeout(() => { requestAll(); }, 2000);
-    }
+    // Silently accumulates quota if user checked "always keep"
+    setTimeout(() => { requestAll(); }, 2000);
   },
 
   async load() {
