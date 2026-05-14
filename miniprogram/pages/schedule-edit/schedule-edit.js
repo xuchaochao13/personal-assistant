@@ -61,7 +61,13 @@ Page({
       return;
     }
     const data = { title, description, start_time, end_time };
+    const TID = 'FsdXYQZpHgn-5BnaSq51gVvsikFniEnQE_lBpntTNe0';
     (isEdit ? api.put(`/schedules/${id}`, data) : api.post('/schedules', data))
-      .then(() => wx.navigateBack());
+      .then(() => {
+        wx.requestSubscribeMessage({ tmplIds: [TID], success() {
+          api.post('/notify/subscribe', { template_id: TID });
+        }});
+        wx.navigateBack();
+      });
   },
 });

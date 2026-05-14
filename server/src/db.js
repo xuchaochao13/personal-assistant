@@ -119,6 +119,20 @@ async function initDb() {
       created_at DATETIME DEFAULT (datetime('now')),
       updated_at DATETIME DEFAULT (datetime('now'))
     )`,
+    `CREATE TABLE IF NOT EXISTS message_subscriptions (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id TEXT NOT NULL REFERENCES users(id),
+      template_id TEXT NOT NULL,
+      created_at DATETIME DEFAULT (datetime('now'))
+    )`,
+    `CREATE TABLE IF NOT EXISTS sent_notifications (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id TEXT NOT NULL REFERENCES users(id),
+      type TEXT NOT NULL,
+      ref_id INTEGER NOT NULL,
+      template_id TEXT NOT NULL,
+      sent_at DATETIME DEFAULT (datetime('now'))
+    )`,
     `CREATE TABLE IF NOT EXISTS chat_history (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       user_id TEXT NOT NULL REFERENCES users(id),
@@ -141,6 +155,8 @@ async function initDb() {
     'CREATE INDEX IF NOT EXISTS idx_fitness_user ON fitness_records(user_id)',
     'CREATE INDEX IF NOT EXISTS idx_reflections_user ON reflections(user_id)',
     'CREATE INDEX IF NOT EXISTS idx_chat_session ON chat_history(user_id, session_id)',
+    'CREATE INDEX IF NOT EXISTS idx_notify_user ON sent_notifications(user_id, type, ref_id)',
+    'CREATE INDEX IF NOT EXISTS idx_sub_user ON message_subscriptions(user_id)',
   ];
 
   for (const sql of indexes) {

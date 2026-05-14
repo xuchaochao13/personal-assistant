@@ -1,41 +1,102 @@
-.date-nav {
+/* === View Tabs === */
+.view-tabs {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
   background: #FFFFFF;
-  padding: 14px 20px;
   border-radius: 12px;
-  margin-bottom: 20px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  padding: 4px;
+  margin-bottom: 18px;
   border: 1px solid #E5E7EB;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 }
 
-.date-nav text:first-child,
-.date-nav text:last-child {
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 8px 0;
+  font-size: 15px;
+  font-weight: 500;
+  color: #64748B;
+  border-radius: 10px;
+  transition: all 200ms ease;
+}
+
+.tab.active {
+  background: linear-gradient(135deg, #006FCF, #0059B3);
+  color: #FFFFFF;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0,111,207,0.2);
+}
+
+/* === Date Nav === */
+.date-nav, .week-nav, .month-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 12px 0;
+  margin-bottom: 16px;
+}
+
+.nav-arrow {
   font-size: 18px;
   color: #006FCF;
-  padding: 4px 8px;
+  padding: 6px 12px;
   font-weight: 600;
+  flex-shrink: 0;
 }
 
 .date-text {
   font-size: 16px;
   font-weight: 700;
   color: #111827;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
+.today-badge {
+  font-size: 11px;
+  font-weight: 600;
+  color: #006FCF;
+  background: #EFF6FF;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.today-btn {
+  font-size: 12px;
+  font-weight: 700;
+  color: #006FCF;
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  text-align: center;
+  border-radius: 16px;
+  border: 1.5px solid #006FCF;
+  flex-shrink: 0;
+}
+
+/* === Schedule Card === */
 .schedule-card {
-  border-left: 3px solid transparent;
-  transition: border-color 200ms ease;
+  display: flex;
+  gap: 12px;
+  overflow: hidden;
 }
 
-.schedule-card.upcoming {
-  border-left-color: #006FCF;
+.schedule-timebar {
+  width: 4px;
+  border-radius: 2px;
+  background: #006FCF;
+  flex-shrink: 0;
 }
 
-.schedule-card.past {
-  border-left-color: #E5E7EB;
-  opacity: 0.7;
+.schedule-timebar.past {
+  background: #CBD5E1;
+}
+
+.schedule-body {
+  flex: 1;
+  min-width: 0;
 }
 
 .schedule-title {
@@ -55,4 +116,136 @@
   font-size: 13px;
   color: #9CA3AF;
   margin-top: 4px;
+}
+
+/* === Week View === */
+.week-strip {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+
+.week-day {
+  flex: 1;
+  text-align: center;
+  padding: 10px 4px 8px;
+  background: #FFFFFF;
+  border-radius: 12px;
+  border: 1px solid #E5E7EB;
+  transition: all 200ms ease;
+  position: relative;
+}
+
+.week-day.today {
+  border-color: #006FCF;
+  background: #EFF6FF;
+}
+
+.week-day.selected {
+  background: #006FCF;
+  border-color: #006FCF;
+}
+
+.week-day.selected .week-day-name,
+.week-day.selected .week-day-num {
+  color: #FFFFFF;
+}
+
+.week-day-name {
+  font-size: 11px;
+  color: #94A3B8;
+  margin-bottom: 4px;
+}
+
+.week-day.today .week-day-name {
+  color: #006FCF;
+  font-weight: 600;
+}
+
+.week-day-num {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.week-day.today .week-day-num {
+  color: #006FCF;
+}
+
+.week-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #006FCF;
+  margin: 6px auto 0;
+}
+
+.week-schedules-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748B;
+  margin-bottom: 10px;
+}
+
+/* === Month View === */
+.calendar {
+  background: #FFFFFF;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.cal-header {
+  display: flex;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.cal-hd {
+  flex: 1;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #94A3B8;
+}
+
+.cal-body {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.cal-cell {
+  width: calc(100% / 7);
+  text-align: center;
+  padding: 8px 0 12px;
+  position: relative;
+}
+
+.cal-cell.other {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cal-cell.today .cal-num {
+  background: #006FCF;
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+.cal-num {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  border-radius: 16px;
+  font-size: 14px;
+  color: #111827;
+  font-weight: 500;
+}
+
+.cal-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #DBEAFE;
+  margin: 2px auto 0;
 }
