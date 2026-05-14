@@ -32,4 +32,51 @@ router.get('/subscribe', async (req, res) => {
   res.json(subs.map(s => s.template_id));
 });
 
+// Test: manually trigger notification check (for debugging)
+router.post('/test-send', async (req, res) => {
+  try {
+    await getDb();
+    const now = new Date();
+    const todayStr = now.toISOString().slice(0, 10);
+
+    const { sendScheduleReminder, sendTodoReminder } = require('../services/notify');
+
+    const results = [];
+
+    // Schedule check
+    const schedules = query(
+      `SELECT s.* FROM schedules s
+       INNER JOIN message_subscriptions sub ON s.user_id = sub.user_id
+       AND sub.template_id = 'FsdXYQZpHgn-5BnaSq51gVvsikFniEnQE_lBpntTNe0'
+       WHERE s.user_id = ? AND s.start_time LIKE ?
+       ORDER BY s.start_time ASC LIMIT 5`,
+      [req.user.openid, todayStr + '%']
+    );
+
+    for (const s of schedules) {
+      const msg = await sendScheduleReminder(req.user.openid, s).then(() => 'ok').catch(e => e.message);
+      results.push({ type: 'schedule', id: s.id, title: s.title, result: msg });
+    }
+
+    // Todo check
+    const todos = query(
+      `SELECT t.* FROM todos t
+       INNER JOIN message_subscriptions sub ON t.user_id = sub.user_id
+       AND sub.template_id = '2x2roFHsREZMOhl5MwzY2b2YklrkX7_09PyV4VN7OZ8'
+       WHERE t.user_id = ? AND t.completed = 0
+       ORDER BY t.created_at DESC LIMIT 5`,
+      [req.user.openid]
+    );
+
+    for (const t of todos) {
+      const msg = await sendTodoReminder(req.user.openid, t).then(() => 'ok').catch(e => e.message);
+      results.push({ type: 'todo', id: t.id, title: t.title, result: msg });
+    }
+
+    res.json({ tested: results.length, results });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 module.exports = router;
