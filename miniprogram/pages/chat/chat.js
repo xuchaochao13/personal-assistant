@@ -33,8 +33,8 @@ Page({
     this.loadSessions();
   },
 
-  _sendRequest(retryCount = 0) {
-    const { input, currentSessionId } = this.data;
+  _sendRequest(input, retryCount = 0) {
+    const { currentSessionId } = this.data;
 
     const decoder = new TextDecoder('utf-8');
     let buffer = '';
@@ -52,7 +52,7 @@ Page({
         if (!hasContent) {
           if (retryCount < 2) {
             wx.showToast({ title: '服务启动中，自动重试...', icon: 'loading', duration: 3000 });
-            setTimeout(() => this._sendRequest(retryCount + 1), 5000);
+            setTimeout(() => this._sendRequest(input, retryCount + 1), 5000);
           } else {
             const msgs = this.data.messages;
             msgs[msgs.length - 1].content = '服务暂时不可用，请稍后重试';
@@ -120,9 +120,10 @@ Page({
     const newMessages = [...messages, userMsg];
     const aiMsg = { role: 'assistant', content: '' };
     newMessages.push(aiMsg);
+    const msg = input;
     this.setData({ messages: newMessages, input: '', streaming: true });
 
-    this._sendRequest();
+    this._sendRequest(msg);
   },
 
   deleteSession(e) {
