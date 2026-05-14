@@ -7,7 +7,7 @@
     "WECHAT_APPID": "wx6e127323f9eadc3f",
     "WECHAT_SECRET": "{{WECHAT_SECRET}}"
   },
-  "minNum": 0,
+  "minNum": 1,
   "maxNum": 2,
   "cpu": 1,
   "mem": 2,
