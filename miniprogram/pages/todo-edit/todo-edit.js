@@ -1,4 +1,5 @@
 const api = require('../../utils/api');
+const { requestAll } = require('../../utils/subscribe');
 
 Page({
   data: { id: null, title: '', priority: 2, due_date: '', isEdit: false },
@@ -23,12 +24,9 @@ Page({
     const { id, isEdit, title, priority, due_date } = this.data;
     if (!title.trim()) { wx.showToast({ title: '请输入标题', icon: 'none' }); return; }
     const data = { title, priority, due_date: due_date || null };
-    const TID = '2x2roFHsREZMOhl5MwzY2b2YklrkX7_09PyV4VN7OZ8';
     (isEdit ? api.put(`/todos/${id}`, data) : api.post('/todos', data))
       .then(() => {
-        wx.requestSubscribeMessage({ tmplIds: [TID], success() {
-          api.post('/notify/subscribe', { template_id: TID });
-        }});
+        requestAll();
         wx.navigateBack();
       });
   },

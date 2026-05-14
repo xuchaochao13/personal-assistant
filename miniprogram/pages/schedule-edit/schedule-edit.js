@@ -1,4 +1,5 @@
 const api = require('../../utils/api');
+const { requestAll } = require('../../utils/subscribe');
 
 Page({
   data: {
@@ -61,12 +62,9 @@ Page({
       return;
     }
     const data = { title, description, start_time, end_time };
-    const TID = 'FsdXYQZpHgn-5BnaSq51gVvsikFniEnQE_lBpntTNe0';
     (isEdit ? api.put(`/schedules/${id}`, data) : api.post('/schedules', data))
       .then(() => {
-        wx.requestSubscribeMessage({ tmplIds: [TID], success() {
-          api.post('/notify/subscribe', { template_id: TID });
-        }});
+        requestAll();
         wx.navigateBack();
       });
   },
