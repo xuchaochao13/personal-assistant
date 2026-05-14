@@ -7,6 +7,7 @@ Page({
     input: '',
     currentSessionId: '',
     streaming: false,
+    keyboardHeight: 0,
   },
 
   onShow() { this.loadSessions(); },
@@ -32,17 +33,8 @@ Page({
     this.loadSessions();
   },
 
-  sendMessage() {
-    const { input, currentSessionId, messages } = this.data;
-    if (!input.trim() || this.data.streaming) return;
-
-    const userMsg = { role: 'user', content: input };
-    const newMessages = [...messages, userMsg];
-    this.setData({ messages: newMessages, input: '', streaming: true });
-
-    const aiMsg = { role: 'assistant', content: '' };
-    newMessages.push(aiMsg);
-    this.setData({ messages: newMessages });
+  _sendRequest(retryCount = 0) {
+    const { input, currentSessionId } = this.data;
 
     const decoder = new TextDecoder('utf-8');
     let buffer = '';
@@ -58,10 +50,14 @@ Page({
       success: () => {
         this.setData({ streaming: false });
         if (!hasContent) {
-          console.log('buffer remaining:', JSON.stringify(buffer));
-          const msgs = this.data.messages;
-          msgs[msgs.length - 1].content = 'AI 未返回内容，请重试';
-          this.setData({ messages: msgs });
+          if (retryCount < 2) {
+            wx.showToast({ title: '服务启动中，自动重试...', icon: 'loading', duration: 3000 });
+            setTimeout(() => this._sendRequest(retryCount + 1), 5000);
+          } else {
+            const msgs = this.data.messages;
+            msgs[msgs.length - 1].content = '服务暂时不可用，请稍后重试';
+            this.setData({ messages: msgs });
+          }
         }
         this.loadSessions();
       },
@@ -83,14 +79,11 @@ Page({
     task.onChunkReceived((res) => {
       const raw = res.data;
       const chunk = typeof raw === 'string' ? raw : decoder.decode(raw, { stream: true });
-      console.log('chunk received, bytes:', chunk.length, 'preview:', chunk.slice(0, 200));
       buffer += chunk;
       const frames = buffer.split('\n\n');
       buffer = frames.pop() || '';
-      console.log('frames to process:', frames.length);
       for (const frame of frames) {
         const line = frame.trim();
-        console.log('frame line:', line.slice(0, 120));
         if (!line.startsWith('data: ')) continue;
         try {
           const json = JSON.parse(line.slice(6));
@@ -117,6 +110,19 @@ Page({
         } catch {}
       }
     });
+  },
+
+  sendMessage() {
+    const { input, messages } = this.data;
+    if (!input.trim() || this.data.streaming) return;
+
+    const userMsg = { role: 'user', content: input };
+    const newMessages = [...messages, userMsg];
+    const aiMsg = { role: 'assistant', content: '' };
+    newMessages.push(aiMsg);
+    this.setData({ messages: newMessages, input: '', streaming: true });
+
+    this._sendRequest();
   },
 
   deleteSession(e) {
@@ -146,5 +152,9 @@ Page({
   },
 
   onInput(e) { this.setData({ input: e.detail.value }); },
+
+  onKeyboardHeightChange(e) {
+    this.setData({ keyboardHeight: e.detail.height });
+  },
 
 });
